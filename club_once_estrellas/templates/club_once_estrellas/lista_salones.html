@@ -1,0 +1,14 @@
+{% extends "club_once_estrellas/base.html" %}
+
+{% block contenido %}
+<section>
+  <div>
+    <h1>Salones en alquiler</h1>
+    <ul>
+    {% for tiposalon in Salones %}
+      <li>{{ tiposalon.tipo }}, {{ tiposalon.precio }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock contenido %}

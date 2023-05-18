@@ -13,9 +13,25 @@ def lista_de_actividades(request):
             {"actividad": "Danza", "telefono_contacto": "096123456"},
         ]
     }
-    http_responde = render(
+    http_response = render(
         request=request,
         template_name='club_once_estrellas/lista_actividades.html',
         context=contexto,
     )
-    return http_responde
+    return http_response
+
+def Salones_en_alquiler(request):
+    contexto = {
+        "Salones": [
+            {"tipo": "Social", "precio": "5000"},
+            {"tipo": "Parrilla chica", "precio": "3100"},
+            {"tipo": "Parrilla grande", "precio": "4800"},
+            {"tipo": "Carabelas", "precio": "4500"},
+        ]
+    }
+    http_response = render(
+        request=request,
+        template_name='club_once_estrellas/lista_salones.html',
+        context=contexto,
+    )
+    return http_response
