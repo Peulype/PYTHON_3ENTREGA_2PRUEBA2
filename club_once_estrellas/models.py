@@ -16,6 +16,9 @@ class Actividades(models.Model):
     dia = models.IntegerField()
     nombre_profesor = models.CharField(max_length=64)
     telefono_contacto = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.actividad}, {self.telefono_contacto}"
     
 class Salones(models.Model):
     tipo = models.CharField(max_length=64)
