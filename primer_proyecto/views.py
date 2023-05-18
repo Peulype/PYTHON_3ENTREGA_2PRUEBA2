@@ -15,8 +15,16 @@ def saludar_con_fecha(request):
     pagina_html = HttpResponse(saludo)
     return pagina_html
 
+def saludar_con_html(request):
+    contexto = {}
+    http_responde = render(
+        request = request,
+        template_name='club_once_estrellas/base.html',
+        context=contexto,
+    )
+    return http_responde
+
 def saludar_a_usuario(request, nombre):
     texto = f"Hola {nombre}"
-    pagina_html = HttpResponse(texto)
-    return pagina_html
-
+    http_response = HttpResponse(texto)
+    return http_response

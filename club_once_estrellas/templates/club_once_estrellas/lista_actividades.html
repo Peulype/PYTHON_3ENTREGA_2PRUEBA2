@@ -1,0 +1,14 @@
+{% extends "club_once_estrellas/base.html" %}
+
+{% block contenido %}
+<section>
+  <div>
+    <h1>Lista de Actividades</h1>
+    <ul>
+    {% for tipoactividad in Actividades %}
+      <li>{{ tipoactividad.actividad }}, {{ tipoactividad.telefono_contacto }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock contenido %}
