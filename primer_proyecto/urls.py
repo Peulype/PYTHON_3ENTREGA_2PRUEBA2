@@ -16,19 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import path, include
+
+
 from primer_proyecto.views import saludar, saludar_con_fecha, saludar_con_html, saludar_a_usuario, inicio
-from club_once_estrellas.views import lista_de_actividades, Salones_en_alquiler, Socios_socias
 
 
 urlpatterns = [
     path("", inicio, name="inicio"),
+    path('club_once_estrellas/', include('club_once_estrellas.urls')),
     path('admin/', admin.site.urls),
     path("Saludo/", saludar),
     path("saludo-hoy/", saludar_con_fecha),
     path("saludar-html/", saludar_con_html),
     path("Hola/<nombre>/", saludar_a_usuario),
-    path("Actividades-en-el-Once/", lista_de_actividades),
-    path("Salones-para-alquilar/", Salones_en_alquiler),
-    path("Socios-once/", Socios_socias),
-
 ]
+

@@ -36,13 +36,12 @@ def Salones_en_alquiler(request):
     )
     return http_response
 
-def Socios_socias(request):
+def lista_de_socios(request):
     contexto = {
         "Socios": [
-            {"nombre": "Paula", "numero_socio": "270"},
-            {"nombre": "Ana", "numero_socio": "264"},
-            {"nombre": "Alvaro", "numero_socio": "327"},
-            {"nombre": "Juan", "numero_socio": "252"},
+            {"nombre": "Pau", "apellido": "P"},
+            {"nombre": "Anita", "apellido": "R"},
+            {"nombre": "Juan", "apellido": "M"},
         ]
     }
     http_response = render(
