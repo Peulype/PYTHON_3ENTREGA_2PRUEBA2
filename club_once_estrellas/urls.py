@@ -1,5 +1,5 @@
 """
-URL configuration for primer_proyecto project.
+URL configuration for sistema_coder project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -16,19 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from primer_proyecto.views import saludar, saludar_con_fecha, saludar_con_html, saludar_a_usuario, inicio
+
 from club_once_estrellas.views import lista_de_actividades, Salones_en_alquiler, Socios_socias
 
 
 urlpatterns = [
-    path("", inicio, name="inicio"),
-    path('admin/', admin.site.urls),
-    path("Saludo/", saludar),
-    path("saludo-hoy/", saludar_con_fecha),
-    path("saludar-html/", saludar_con_html),
-    path("Hola/<nombre>/", saludar_a_usuario),
-    path("Actividades-en-el-Once/", lista_de_actividades),
-    path("Salones-para-alquilar/", Salones_en_alquiler),
-    path("Socios-once/", Socios_socias),
+    path("actividades/", lista_de_actividades, name="lista_para_actividades"),
+    path("salones/", Salones_en_alquiler, name="lista_salones"),
+    path("Socios_once/", Socios_socias, name= "Socios_as")
 
 ]

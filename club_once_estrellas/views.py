@@ -35,3 +35,20 @@ def Salones_en_alquiler(request):
         context=contexto,
     )
     return http_response
+
+def Socios_socias(request):
+    contexto = {
+        "Socios": [
+            {"nombre": "Paula", "numero_socio": "270"},
+            {"nombre": "Ana", "numero_socio": "264"},
+            {"nombre": "Alvaro", "numero_socio": "327"},
+            {"nombre": "Juan", "numero_socio": "252"},
+        ]
+    }
+    http_response = render(
+        request=request,
+        template_name='club_once_estrellas/lista_socios.html',
+        context=contexto,
+    )
+    return http_response
+

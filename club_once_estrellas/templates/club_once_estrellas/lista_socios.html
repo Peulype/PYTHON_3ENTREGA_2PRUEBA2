@@ -1,0 +1,14 @@
+{% extends "club_once_estrellas/base.html" %}
+
+{% block contenido %}
+<section>
+  <div>
+    <h1>Socios activos</h1>
+    <ul>
+    {% for sociosactivos in Socios %}
+      <li>{{ sociosactivos.nombre }}, {{ sociosactivos.numero_socio }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock contenido %}
