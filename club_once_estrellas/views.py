@@ -119,4 +119,38 @@ def eliminar_salon(request, id):
         salones.delete()
         url_exitosa = reverse('lista_salones')
         return redirect(url_exitosa)
+    
+def editar_salones(request, id):
+    salon = Salones.objects.get(id=id)
 
+    if request.method == "POST":
+        formulario = SalonesFormulario(request.POST)
+
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+            tipo = data["tipo"]
+            horario = data["horario"]
+            precio = data["precio"]
+
+            # Actualizar los campos del salón existente en lugar de crear uno nuevo
+            salon.tipo = tipo
+            salon.horario = horario
+            salon.precio = precio
+            salon.save()
+
+            url_exitosa = reverse('lista_salones')
+            return redirect(url_exitosa)
+    else:  # GET
+        # Usar los valores actuales del salón para prellenar el formulario
+        inicial = {
+            'tipo': salon.tipo,
+            'horario': salon.horario,
+            'precio': salon.precio,
+        }
+        formulario = SalonesFormulario(initial=inicial)
+
+    return render(
+        request=request,
+        template_name='club_once_estrellas/lista_salones.html',
+        context={'formulario': formulario, 'salon': salon},
+    )

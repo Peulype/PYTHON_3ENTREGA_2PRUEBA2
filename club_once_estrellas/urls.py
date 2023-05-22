@@ -21,7 +21,7 @@ from club_once_estrellas.views import exito
 
 
 from club_once_estrellas.views import lista_de_actividades, Salones_en_alquiler, lista_de_socios, agregar_salon, buscar_salon, exito, \
-    eliminar_salon
+    eliminar_salon, editar_salones
   
 
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path("salones/", Salones_en_alquiler, name="lista_salones"),
     path("Sociosonce/", lista_de_socios, name= "lista_de_socios"),
     path("agregar-salon/", agregar_salon, name= "agregar_salon"),
+    path("editar-salon/<int:id>/", editar_salones, name= "editar_salon"),
     path("borrar-salon/<int:id>/", eliminar_salon, name= "eliminar_salon"),
     path("buscar-salon/", buscar_salon, name= "buscar_salon"),
     path("exito/", exito, name="exito")

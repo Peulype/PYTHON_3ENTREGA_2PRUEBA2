@@ -4,7 +4,7 @@
 <section>
   <div>
     <h1>Salones en alquiler</h1>
-    <a href = "{% url 'agregar_salon' %}">Agregar salon</a>
+    <a href="{% url 'agregar_salon' %}">Agregar salon</a>
     <form action="{% url 'buscar_salon' %}" method="post">
       {% csrf_token %}
       <input type="text" name="busqueda">
@@ -12,31 +12,35 @@
     </form>
     <br>
 
-    <ul>
     <table class="table">
-      <tbody>
+      <thead>
         <tr>
           <th>Id</th>
-          <th>tipo</th>
-          <th>precio</th>
+          <th>Tipo</th>
+          <th>Precio</th>
+          <th>Editar</th>
           <th>Eliminar</th>
         </tr>
+      </thead>
+      <tbody>
         {% for salon in Salones %}
         <tr>
           <td>{{ salon.id }}</td>
           <td>{{ salon.tipo }}</td>
           <td>{{ salon.precio }}</td>
           <td>
+            <a href="{% url 'editar_salon' salon.id %}">Editar</a>
+          </td>
+          <td>
             <form action="{% url 'eliminar_salon' salon.id %}" method="post">
               {% csrf_token %}
-              <input type="submit" value="eliminar"/>
+              <input type="submit" value="Eliminar"/>
             </form>
           </td>
         </tr>
-    {% endfor %}
+        {% endfor %}
       </tbody>
     </table>
-
   </div>
 </section>
 {% endblock contenido %}
