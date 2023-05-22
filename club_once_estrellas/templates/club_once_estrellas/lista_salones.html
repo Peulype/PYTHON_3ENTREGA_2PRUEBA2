@@ -4,6 +4,11 @@
 <section>
   <div>
     <a href = "{% url 'agregar_salon' %}">Agregar salon</a>
+    <form action="{% url 'buscar_salon' %}" method="post">
+      {% csrf_token %}
+      <input type="text" name="busqueda">
+      <input type="submit" value="Buscar por Salon">
+    </form>
     <h1>Salones en alquiler</h1>
     <ul>
     {% for tiposalon in Salones %}

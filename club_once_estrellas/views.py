@@ -87,9 +87,25 @@ def agregar_salon(request):
         formulario = SalonesFormulario()
     http_response = render(
             request=request,
-            template_name='club_once_estrellas/formulario_salones.html',
+            template_name='club_once_estrellas/formulario_a_mano.html',
             context={'formulario': formulario}
 
     )
     return http_response
+
+def buscar_salon(request):
+    if request.method == "POST":
+        data = request.POST
+        busqueda = data["busqueda"]
+        salon = Salones.objects.filter(tipo__contains=busqueda)
+        contexto = {
+            'Salones': salon,
+            }
+
+        http_response = render(
+            request=request,
+            template_name='club_once_estrellas/lista_salones.html',
+            context=contexto,
+        )
+        return http_response
 
