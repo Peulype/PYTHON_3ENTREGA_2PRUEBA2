@@ -112,4 +112,11 @@ def buscar_salon(request):
             context=contexto,
         )
         return http_response
+    
+def eliminar_salon(request, id):
+    salones = Salones.objects.get(id=id)
+    if request.method == "POST":
+        salones.delete()
+        url_exitosa = reverse('lista_salones')
+        return redirect(url_exitosa)
 
