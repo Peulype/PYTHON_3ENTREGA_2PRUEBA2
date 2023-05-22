@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from club_once_estrellas.models import Salones
+from club_once_estrellas.forms import SalonesFormulario
 
 
 def lista_de_actividades(request):
@@ -48,7 +49,7 @@ def lista_de_socios(request):
     )
     return http_response
 
-def agregar_salon(request):
+def agregar_salon_version1(request):
     if request.method == "POST":
         data = request.POST
         tipo = data["tipo"]
@@ -67,4 +68,28 @@ def agregar_salon(request):
     )
     return http_response
 
+def agregar_salon(request):
+    if request.method == "POST":
+        formulario = SalonesFormulario(request.POST)
+
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+            tipo = data["tipo"]
+            horario = data["horario"]
+            precio = data["precio"]
+            salon = Salones(tipo=tipo, horario=horario, precio=precio)
+            salon.save()
+
+            Url_exitosa = reverse("lista_salones")
+            return redirect(Url_exitosa)
+
+    else:
+        formulario = SalonesFormulario()
+    http_response = render(
+            request=request,
+            template_name='club_once_estrellas/formulario_salones.html',
+            context={'formulario': formulario}
+
+    )
+    return http_response
 
