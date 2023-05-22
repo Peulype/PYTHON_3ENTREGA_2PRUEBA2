@@ -1,0 +1,14 @@
+{% extends "club_once_estrellas/base.html" %}
+
+{% block contenido %}
+<form action="{% url 'lista_salones' %}" method="post">
+  {% csrf_token %}
+  <p>Salon</p>
+  <input type="text" name="tipo">
+  <p>horario</p>
+  <input type="time" name="horario">
+  <p>precio</p>
+  <input type="number" name="precio">
+  <input type="submit" value="Enviar">
+</form>
+{% endblock contenido %}

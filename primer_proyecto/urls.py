@@ -21,10 +21,12 @@ from django.urls import path, include
 
 from primer_proyecto.views import saludar, saludar_con_fecha, saludar_con_html, saludar_a_usuario, inicio
 
+from club_once_estrellas.models import Socios, Actividades, Salones
+
 
 urlpatterns = [
     path("", inicio, name="inicio"),
-    path('club_once_estrellas/', include('club_once_estrellas.urls')),
+    path('', include('club_once_estrellas.urls')),
     path('admin/', admin.site.urls),
     path("Saludo/", saludar),
     path("saludo-hoy/", saludar_con_fecha),

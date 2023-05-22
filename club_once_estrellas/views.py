@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
-# Create your views here.
-from django.shortcuts import render
+from club_once_estrellas.models import Salones
 
 
 def lista_de_actividades(request):
@@ -22,12 +22,7 @@ def lista_de_actividades(request):
 
 def Salones_en_alquiler(request):
     contexto = {
-        "Salones": [
-            {"tipo": "Social", "precio": "5000"},
-            {"tipo": "Parrilla chica", "precio": "3100"},
-            {"tipo": "Parrilla grande", "precio": "4800"},
-            {"tipo": "Carabelas", "precio": "4500"},
-        ]
+        "Salones": Salones.objects.all(),
     }
     http_response = render(
         request=request,
@@ -35,6 +30,8 @@ def Salones_en_alquiler(request):
         context=contexto,
     )
     return http_response
+
+
 
 def lista_de_socios(request):
     contexto = {
@@ -50,4 +47,24 @@ def lista_de_socios(request):
         context=contexto,
     )
     return http_response
+
+def agregar_salon(request):
+    if request.method == "POST":
+        data = request.POST
+        tipo = data["tipo"]
+        horario = data["horario"]
+        precio = data["precio"]
+        salon = Salones(tipo=tipo, horario=horario, precio=precio)
+        salon.save()
+        Url_exitosa = reverse("lista_salones")
+        return redirect(Url_exitosa)
+    else:
+        http_response = render(
+            request=request,
+            template_name='club_once_estrellas/formulario_a_mano.html',
+            
+
+    )
+    return http_response
+
 

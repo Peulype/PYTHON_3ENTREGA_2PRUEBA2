@@ -3,6 +3,7 @@
 {% block contenido %}
 <section>
   <div>
+    <a href = "{% url 'agregar_salon' %}">Agregar salon</a>
     <h1>Salones en alquiler</h1>
     <ul>
     {% for tiposalon in Salones %}
