@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import path, include
+from club_once_estrellas.views import exito
 
-from club_once_estrellas.views import lista_de_actividades, Salones_en_alquiler, lista_de_socios, agregar_salon, buscar_salon
+
+from club_once_estrellas.views import lista_de_actividades, Salones_en_alquiler, lista_de_socios, agregar_salon, buscar_salon, exito
   
 
 
@@ -27,6 +29,7 @@ urlpatterns = [
     path("salones/", Salones_en_alquiler, name="lista_salones"),
     path("Sociosonce/", lista_de_socios, name= "lista_de_socios"),
     path("agregar-salon/", agregar_salon, name= "agregar_salon"),
-    path("buscar-salon/", buscar_salon, name= "buscar_salon")
+    path("buscar-salon/", buscar_salon, name= "buscar_salon"),
+    path("exito/", exito, name="exito")
     ]
 

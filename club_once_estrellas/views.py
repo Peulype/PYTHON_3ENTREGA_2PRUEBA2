@@ -50,13 +50,14 @@ def lista_de_socios(request):
     return http_response
 
 def agregar_salon_version1(request):
+    #No se usa 
     if request.method == "POST":
         data = request.POST
         tipo = data["tipo"]
         horario = data["horario"]
         precio = data["precio"]
-        salon = Salones(tipo=tipo, horario=horario, precio=precio)
-        salon.save()
+        salones = Salones(tipo=tipo, horario=horario, precio=precio)
+        salones.save()
         Url_exitosa = reverse("lista_salones")
         return redirect(Url_exitosa)
     else:
@@ -79,27 +80,30 @@ def agregar_salon(request):
             precio = data["precio"]
             salon = Salones(tipo=tipo, horario=horario, precio=precio)
             salon.save()
+            #return redirect("exito")  # Redirige a la página de éxito
 
-            Url_exitosa = reverse("lista_salones")
-            return redirect(Url_exitosa)
-
-    else:
+            # Redirecciono al usuario a la lista de salones
+            url_exitosa = reverse('lista_salones')  # estudios/salones/
+            return redirect(url_exitosa)
+    else:  # GET
         formulario = SalonesFormulario()
     http_response = render(
-            request=request,
-            template_name='club_once_estrellas/formulario_a_mano.html',
-            context={'formulario': formulario}
-
-    )
+        request=request,
+        template_name='club_once_estrellas/formulario_salones.html',
+        context={'formulario': formulario}
+        )
     return http_response
+
+def exito(request):
+    return render(request, 'club_once_estrellas/exito.html')
 
 def buscar_salon(request):
     if request.method == "POST":
         data = request.POST
         busqueda = data["busqueda"]
-        salon = Salones.objects.filter(tipo__contains=busqueda)
+        salones = Salones.objects.filter(tipo__contains=busqueda)
         contexto = {
-            'Salones': salon,
+            'Salones': salones,
             }
 
         http_response = render(
