@@ -133,10 +133,10 @@ def editar_salones(request, id):
             precio = data["precio"]
 
             # Actualizar los campos del salón existente en lugar de crear uno nuevo
-            salon.tipo = tipo
-            salon.horario = horario
-            salon.precio = precio
-            salon.save()
+            #salon.tipo = tipo
+            #salon.horario = horario
+            #salon.precio = precio
+            #salon.save()
 
             url_exitosa = reverse('lista_salones')
             return redirect(url_exitosa)
@@ -151,6 +151,6 @@ def editar_salones(request, id):
 
     return render(
         request=request,
-        template_name='club_once_estrellas/lista_salones.html',
+        template_name='club_once_estrellas/formulario_salones.html',
         context={'formulario': formulario, 'salon': salon},
     )
