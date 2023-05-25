@@ -1,14 +1,9 @@
 {% extends "club_once_estrellas/base.html" %}
 
 {% block contenido %}
-<section>
-  <div>
-    <h1>Socios activos</h1>
-    <ul>
-    {% for sociosactivos in Socios %}
-      <li>{{ sociosactivos.nombre }}, {{ sociosactivos.apellido }}</li>
-    {% endfor %}
-    </ul>
-  </div>
-</section>
+<h2>Información para Socios</h2>
+<p>Beneficios: {{ informacion_socios.beneficios }}</p>
+<p>Monto de la cuota social: {{ informacion_socios.cuota_social }}</p>
+<p>Formas de pago: {{ informacion_socios.formas_pago }}</p>
+
 {% endblock contenido %}

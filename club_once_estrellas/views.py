@@ -1,8 +1,16 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.http import HttpResponse
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+
 
 from club_once_estrellas.models import Salones
 from club_once_estrellas.forms import SalonesFormulario
+from club_once_estrellas.models import InformacionSocios, Actividad
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 def lista_de_actividades(request):
@@ -35,20 +43,21 @@ def Salones_en_alquiler(request):
 
 
 def lista_de_socios(request):
+    informacion_socios = InformacionSocios.objects.first()  # Recupera el primer objeto de InformacionSocios o ajusta la consulta según tus necesidades
+
     contexto = {
-        "Socios": [
-            {"nombre": "Pau", "apellido": "P"},
-            {"nombre": "Anita", "apellido": "R"},
-            {"nombre": "Juan", "apellido": "M"},
-        ]
+        "informacion_socios": informacion_socios,
     }
+
     http_response = render(
         request=request,
         template_name='club_once_estrellas/lista_socios.html',
         context=contexto,
     )
+    
     return http_response
 
+@login_required
 def agregar_salon_version1(request):
     #No se usa 
     if request.method == "POST":
@@ -69,6 +78,7 @@ def agregar_salon_version1(request):
     )
     return http_response
 
+@login_required
 def agregar_salon(request):
     if request.method == "POST":
         formulario = SalonesFormulario(request.POST)
@@ -112,14 +122,15 @@ def buscar_salon(request):
             context=contexto,
         )
         return http_response
-    
+@login_required    
 def eliminar_salon(request, id):
     salones = Salones.objects.get(id=id)
     if request.method == "POST":
         salones.delete()
         url_exitosa = reverse('lista_salones')
         return redirect(url_exitosa)
-    
+
+@login_required
 def editar_salones(request, id):
     salon = Salones.objects.get(id=id)
 
@@ -154,3 +165,19 @@ def editar_salones(request, id):
         template_name='club_once_estrellas/formulario_salones.html',
         context={'formulario': formulario, 'salon': salon},
     )
+
+
+def lista_de_actividades1(request):
+    if request.method == 'POST':
+        nueva_actividad = Actividad()
+        nueva_actividad.foto = request.FILES['foto']
+        nueva_actividad.descripcion = request.POST['descripcion']
+        nueva_actividad.nombre_profesor = request.POST['nombre_profesor']
+        nueva_actividad.telefono_contacto = request.POST['telefono_contacto']
+        nueva_actividad.save()
+        
+        # Realizar cualquier otra acción después de guardar la actividad
+        
+        return HttpResponse('Actividad creada exitosamente')
+
+    return render(request, 'lista_actividades.html')

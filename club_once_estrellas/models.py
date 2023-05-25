@@ -20,7 +20,18 @@ class Actividades(models.Model):
     def __str__(self):
         return f"{self.actividad}, {self.telefono_contacto}"
     
+class Actividad(models.Model):
+    foto = models.ImageField(upload_to='actividades/')
+    descripcion = models.TextField()
+    nombre_profesor = models.CharField(max_length=100)
+    telefono_contacto = models.CharField(max_length=20)
+
 class Salones(models.Model):
     tipo = models.CharField(max_length=64)
     horario = models.TimeField()
     precio = models.IntegerField()
+
+class InformacionSocios(models.Model):
+    beneficios = models.TextField()
+    cuota_social = models.DecimalField(max_digits=8, decimal_places=2)
+    formas_pago = models.CharField(max_length=100)
