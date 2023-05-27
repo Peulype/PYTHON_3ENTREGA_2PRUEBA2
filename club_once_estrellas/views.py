@@ -6,28 +6,28 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 
 from club_once_estrellas.models import Salones
 from club_once_estrellas.forms import SalonesFormulario
-from club_once_estrellas.models import InformacionSocios, Actividad
+from club_once_estrellas.models import InformacionSocios, Actividad, Actividades
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-
-def lista_de_actividades(request):
-    contexto = {
-        "Actividades": [
-            {"actividad": "Tambores", "telefono_contacto": "099123456"},
-            {"actividad": "Taekwoondo", "telefono_contacto": "098123456"},
-            {"actividad": "Folklore", "telefono_contacto": "097123456"},
-            {"actividad": "Danza", "telefono_contacto": "096123456"},
-        ]
-    }
-    http_response = render(
-        request=request,
-        template_name='club_once_estrellas/lista_actividades.html',
-        context=contexto,
-    )
-    return http_response
+#no usado - cambiamos por vistas basadas en clases
+# def lista_de_actividades(request):
+#     contexto = {
+#         "Actividades": [
+#             {"actividad": "Tambores", "telefono_contacto": "099123456"},
+#             {"actividad": "Taekwoondo", "telefono_contacto": "098123456"},
+#             {"actividad": "Folklore", "telefono_contacto": "097123456"},
+#             {"actividad": "Danza", "telefono_contacto": "096123456"},
+#         ]
+#     }
+#     http_response = render(
+#         request=request,
+#         template_name='club_once_estrellas/lista_actividades.html',
+#         context=contexto,
+#     )
+#     return http_response
 
 def Salones_en_alquiler(request):
     contexto = {
@@ -57,7 +57,7 @@ def lista_de_socios(request):
     
     return http_response
 
-@login_required
+
 def agregar_salon_version1(request):
     #No se usa 
     if request.method == "POST":
@@ -88,7 +88,8 @@ def agregar_salon(request):
             tipo = data["tipo"]
             horario = data["horario"]
             precio = data["precio"]
-            salon = Salones(tipo=tipo, horario=horario, precio=precio)
+            creador = request.user
+            salon = Salones(tipo=tipo, horario=horario, precio=precio, creador=creador)
             salon.save()
             #return redirect("exito")  # Redirige a la página de éxito
 
@@ -139,9 +140,12 @@ def editar_salones(request, id):
 
         if formulario.is_valid():
             data = formulario.cleaned_data
-            tipo = data["tipo"]
-            horario = data["horario"]
-            precio = data["precio"]
+            salon.tipo = data["tipo"]
+            salon.horario = data["horario"]
+            salon.precio = data["precio"]
+            salon.creador = request.user
+
+
 
             # Actualizar los campos del salón existente en lugar de crear uno nuevo
             #salon.tipo = tipo
@@ -163,7 +167,7 @@ def editar_salones(request, id):
     return render(
         request=request,
         template_name='club_once_estrellas/formulario_salones.html',
-        context={'formulario': formulario, 'salon': salon},
+        context={'formulario': formulario, 'salon': salon,},
     )
 
 
@@ -181,3 +185,30 @@ def lista_de_actividades1(request):
         return HttpResponse('Actividad creada exitosamente')
 
     return render(request, 'lista_actividades.html')
+
+# Vistas de Actividades
+class ActividadesListView(ListView):
+    model = Actividades
+    template_name = 'club_once_estrellas/lista_actividades.html'
+
+
+class ActividadesCreateView(CreateView):
+    model = Actividades
+    fields = ('actividad', 'horario', 'dia', 'nombre_profesor', 'telefono_contacto')
+    success_url = reverse_lazy('lista_actividades')
+
+
+class ActividadesDetailView(DetailView):
+    model = Actividades
+    success_url = reverse_lazy('lista_actividades')
+
+
+class ActividadesUpdateView(UpdateView):
+    model = Actividades
+    fields = ('actividad', 'horario', 'dia', 'nombre_profesor', 'telefono_contacto')
+    success_url = reverse_lazy('lista_actividades')
+
+
+class ActividadesDeleteView(DeleteView):
+    model = Actividades
+    success_url = reverse_lazy('lista_actividades')

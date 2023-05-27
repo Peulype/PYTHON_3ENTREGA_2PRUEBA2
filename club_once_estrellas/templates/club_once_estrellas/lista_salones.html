@@ -4,11 +4,11 @@
 <section>
   <div>
     <h1>Salones en alquiler</h1>
-    <a href="{% url 'agregar_salon' %}">Agregar salon</a>
+    <a href="{% url 'agregar_salon' %}">Agregar salón</a>
     <form action="{% url 'buscar_salon' %}" method="post">
       {% csrf_token %}
       <input type="text" name="busqueda">
-      <input type="submit" value="Buscar por Salon">
+      <input type="submit" value="Buscar por salón">
     </form>
     <br>
 
@@ -17,6 +17,7 @@
         <tr>
           <th>Id</th>
           <th>Tipo</th>
+          <th>Horario</th>
           <th>Precio</th>
           <th>Editar</th>
           <th>Eliminar</th>
@@ -27,6 +28,7 @@
         <tr>
           <td>{{ salon.id }}</td>
           <td>{{ salon.tipo }}</td>
+          <td>{{ salon.horario }}</td>
           <td>{{ salon.precio }}</td>
           <td>
             <a href="{% url 'editar_salon' salon.id %}">Editar</a>
@@ -44,3 +46,4 @@
   </div>
 </section>
 {% endblock contenido %}
+

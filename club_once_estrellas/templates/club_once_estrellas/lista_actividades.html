@@ -3,12 +3,42 @@
 {% block contenido %}
 <section>
   <div>
-    <h1>Lista de Actividades</h1>
-    <ul>
-    {% for tipoactividad in Actividades %}
-      <li>{{ tipoactividad.actividad }}, {{ tipoactividad.telefono_contacto }}</li>
-    {% endfor %}
-    </ul>
+    <h1>Lista de actividades</h1>
+    <a href="{% url 'crear_actividad' %}">Crear actividad</a>
+    <br>
+
+    <table class="table">
+      <tbody>
+        <tr>
+          <th>ID</th>
+          <th>Actividad</th>
+          <th>Profe</th>
+          <td>Contacto</td>
+          <td></td>
+          <td></td>
+        </tr>
+        {% for actividad in object_list %}
+        <tr>
+          <td>{{ actividad.id }}</td>
+          <td>{{ actividad.actividad }}</td>
+          <td>{{ actividad.nombre_profesor }}</td>
+          <td>{{ actividad.telefono_contacto }}</td>
+          <td>
+            <a href="{% url 'ver_actividad' actividad.id %}">Ver</a>
+          </td>
+          <td>
+            <a href="{% url 'editar_actividad' actividad.id %}">Editar</a>
+          </td>
+          <td>
+            <a href="{% url 'eliminar_actividad' actividad.id %}">
+              <i class="bi bi-trash"></i>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
   </div>
 </section>
 {% endblock contenido %}
