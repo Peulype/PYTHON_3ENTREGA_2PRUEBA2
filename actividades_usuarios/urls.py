@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from actividades.views import registro, login_view, CustomLogoutView, MiPerfilUpdateView,\
+from actividades_usuarios.views import registro, login_view, CustomLogoutView, MiPerfilUpdateView,\
     agregar_avatar
 
+app_name = 'actividades_usuarios'
 
 urlpatterns = [
     # URLS Usuario y sesion

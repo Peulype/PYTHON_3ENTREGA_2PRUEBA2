@@ -8,10 +8,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import UpdateView
+from django.views.generic.edit import UpdateView
 
-from actividades.forms import UserRegisterForm, UserUpdateForm, AvatarFormulario
-from actividades.models import Avatar
+
+from actividades_usuarios.forms import UserRegisterForm, UserUpdateForm, AvatarFormulario
+from actividades_usuarios.models import Avatar
 
 
 def registro(request):
@@ -26,10 +27,9 @@ def registro(request):
         formulario = UserRegisterForm()
     return render(
         request=request,
-        template_name='perfiles/registro.html',
+        template_name='actividades_usuarios/registro.html',
         context={'form': formulario},
     )
-
 
 def login_view(request):
     next_url = request.GET.get('next')
@@ -52,19 +52,19 @@ def login_view(request):
         form = AuthenticationForm()
     return render(
         request=request,
-        template_name='perfiles/login.html',
+        template_name='actividades_usuarios/login.html',
         context={'form': form},
     )
 
 
 class CustomLogoutView(LogoutView):
-   template_name = 'perfiles/logout.html'
+   template_name = 'actividades_usuarios/logout.html'
 
 
 class MiPerfilUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UserUpdateForm
     success_url = reverse_lazy('inicio')
-    template_name = 'perfiles/formulario_perfil.html'
+    template_name = 'actividades_usuarios/formulario_perfil.html'
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -84,6 +84,6 @@ def agregar_avatar(request):
         formulario = AvatarFormulario()
     return render(
         request=request,
-        template_name="perfiles/formulario_avatar.html",
+        template_name="actividades_usuarios/formulario_avatar.html",
         context={'form': formulario},
     )
