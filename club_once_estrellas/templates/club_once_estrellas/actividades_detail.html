@@ -1,0 +1,24 @@
+{% extends "club_once_estrellas/base.html" %}
+
+{% block contenido %}
+
+<p>
+    <strong>actividad:</strong> {{object.actividad}}
+  </p>
+  <p>
+    <strong>horario:</strong> {{object.horario}}
+  </p>
+  <p>
+    <strong>dia:</strong> {{object.dia}}
+  </p>
+  <p>
+    <strong>nombre_profesor:</strong> {{object.nombre_profesor}}
+  </p>
+  <p>
+    <strong>telefono_contacto:</strong> {{object.telefono_contacto}}
+  </p>
+
+<br>
+<a href="{% url 'lista_actividades' %}">Volver lista</a>
+
+{% endblock contenido %}

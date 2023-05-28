@@ -1,0 +1,15 @@
+{% extends "club_once_estrellas/base.html" %}
+
+{% block contenido %}
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <p>¿Estas seguro deseas eliminar la actividad {{object.actividad}}?</p>
+  <input type="submit" value="Eliminar" />
+</form>
+
+<br>
+<a href="{% url 'lista_actividades' %}">Volver lista</a>
+
+{% endblock contenido %}
