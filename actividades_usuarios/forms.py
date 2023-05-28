@@ -19,7 +19,7 @@ class UserUpdateForm(forms.ModelForm):
 
    class Meta:
        model = User
-       fields = ['last_name', 'first_name', 'email']
+       fields = ['first_name', 'last_name', 'email']
 
 # Agregar al final del archivo
 class AvatarFormulario(forms.ModelForm):
