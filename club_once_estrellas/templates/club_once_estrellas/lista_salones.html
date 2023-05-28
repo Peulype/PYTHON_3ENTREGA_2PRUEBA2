@@ -31,13 +31,20 @@
           <td>{{ salon.horario }}</td>
           <td>{{ salon.precio }}</td>
           <td>
-            <a href="{% url 'editar_salon' salon.id %}">Editar</a>
+            {% if user == salon.creador %}
+            <a href="{% url 'editar_salon' salon.id %}" method = "post">
+              {% csrf_token %}
+              <input type = "submit" value="Editar"/>
+              </a>
+            {% endif %}
           </td>
           <td>
+            {% if user == salon.creador %}
             <form action="{% url 'eliminar_salon' salon.id %}" method="post">
               {% csrf_token %}
               <input type="submit" value="Eliminar"/>
             </form>
+            {% endif %}
           </td>
         </tr>
         {% endfor %}
