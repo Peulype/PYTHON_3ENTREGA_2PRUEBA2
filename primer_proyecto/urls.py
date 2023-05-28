@@ -36,3 +36,4 @@ urlpatterns = [
     path("Hola/<nombre>/", saludar_a_usuario),
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
