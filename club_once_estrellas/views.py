@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from club_once_estrellas.models import Salones
@@ -57,7 +59,7 @@ def lista_de_socios(request):
     
     return http_response
 
-
+@login_required
 def agregar_salon_version1(request):
     #No se usa 
     if request.method == "POST":
@@ -192,7 +194,7 @@ class ActividadesListView(ListView):
     template_name = 'club_once_estrellas/lista_actividades.html'
 
 
-class ActividadesCreateView(CreateView):
+class ActividadesCreateView(LoginRequiredMixin, CreateView):
     model = Actividades
     fields = ('actividad', 'horario', 'dia', 'nombre_profesor', 'telefono_contacto')
     success_url = reverse_lazy('lista_actividades')
@@ -203,12 +205,12 @@ class ActividadesDetailView(DetailView):
     success_url = reverse_lazy('lista_actividades')
 
 
-class ActividadesUpdateView(UpdateView):
+class ActividadesUpdateView(LoginRequiredMixin, UpdateView):
     model = Actividades
     fields = ('actividad', 'horario', 'dia', 'nombre_profesor', 'telefono_contacto')
     success_url = reverse_lazy('lista_actividades')
 
 
-class ActividadesDeleteView(DeleteView):
+class ActividadesDeleteView(LoginRequiredMixin, DeleteView):
     model = Actividades
     success_url = reverse_lazy('lista_actividades')

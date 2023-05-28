@@ -20,7 +20,6 @@ from django.urls import path
 from actividades_usuarios.views import registro, login_view, CustomLogoutView, MiPerfilUpdateView,\
     agregar_avatar
 
-app_name = 'actividades_usuarios'
 
 urlpatterns = [
     # URLS Usuario y sesion
