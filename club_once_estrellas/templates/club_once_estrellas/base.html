@@ -28,7 +28,8 @@
                 <a class="navbar-brand" href="{% url 'inicio' %}">Inicio</a>
                 <a class="navbar-brand" href="{% url 'lista_actividades' %}">Actividades</a>
                 <a class="navbar-brand" href="{% url 'lista_salones' %}">Salones</a>
-                <a class="navbar-brand" href="{% url 'lista_de_socios' %}">Socios</a>
+                <a class="navbar-brand" href="{% url 'lista_de_socios' %}">Socios</a> 
+                <a class="navbar-brand" href="{% url 'about' %}">Sobre el Club</a>
                 {% if user.is_authenticated %}
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -45,6 +46,9 @@
                         </li>
                         <li>
                             <a class="dropdown-item" href="{% url 'logout' %}"><strong>Cerrar Sesión</strong></a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'about' %}"><strong>Sobre el club</strong></a>
                         </li>
                     </ul>
                     </div>

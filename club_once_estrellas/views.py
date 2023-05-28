@@ -214,3 +214,14 @@ class ActividadesUpdateView(LoginRequiredMixin, UpdateView):
 class ActividadesDeleteView(LoginRequiredMixin, DeleteView):
     model = Actividades
     success_url = reverse_lazy('lista_actividades')
+
+from django.shortcuts import render
+
+def about(request):
+    contexto = {}
+    http_response = render(
+        request=request,
+        template_name='club_once_estrellas/about.html',
+        context=contexto,
+    )
+    return http_response

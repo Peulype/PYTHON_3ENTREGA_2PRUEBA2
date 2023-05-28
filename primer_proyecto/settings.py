@@ -57,7 +57,7 @@ ROOT_URLCONF = 'primer_proyecto.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,3 +133,4 @@ LOGIN_URL = 'login'
 # Clase 24
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # a la carpeta donde se guardan los archivos media
+

@@ -22,8 +22,8 @@ from club_once_estrellas.views import exito
 
 from club_once_estrellas.views import Salones_en_alquiler, lista_de_socios, agregar_salon, buscar_salon, exito, \
     eliminar_salon, editar_salones, ActividadesCreateView, ActividadesCreateView,\
-    ActividadesDetailView, ActividadesUpdateView, ActividadesDeleteView, ActividadesListView
-  
+    ActividadesDetailView, ActividadesUpdateView, ActividadesDeleteView, ActividadesListView, about
+from . import views 
 
 
 urlpatterns = [
@@ -38,7 +38,8 @@ urlpatterns = [
     path('actividades/<int:pk>/', ActividadesDetailView.as_view(), name="ver_actividad"),
     path('crear-actividad/', ActividadesCreateView.as_view(), name="crear_actividad"),
     path('editar-actividad/<int:pk>/', ActividadesUpdateView.as_view(), name="editar_actividad"),
-    path('eliminar-actividad/<int:pk>/', ActividadesDeleteView.as_view(), name="eliminar_actividad")
+    path('eliminar-actividad/<int:pk>/', ActividadesDeleteView.as_view(), name="eliminar_actividad"),
+    path('about/', about, name='about'),
     
     ]
 
