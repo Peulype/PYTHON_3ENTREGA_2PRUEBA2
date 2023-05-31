@@ -1,0 +1,14 @@
+# Archivos y directorios generados por el sistema operativo
+*.pyc
+_pycache_/
+*.swp
+.DS_Store
+
+# Directorio de entorno virtual (puede variar dependiendo de tu configuración)
+venv/
+
+# Archivos y directorios específicos de Django
+*.log
+db.sqlite3
+/media/
+/static/
