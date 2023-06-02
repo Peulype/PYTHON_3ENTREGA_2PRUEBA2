@@ -7,7 +7,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from club_once_estrellas.models import Articulos
 from django.contrib import messages
-
+from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
+from .forms import ActividadesForm
 
 from club_once_estrellas.models import Actividades, Salones
 from club_once_estrellas.forms import SalonesFormulario
@@ -194,10 +197,14 @@ class ActividadesListView(ListView):
 class ActividadesCreateView(LoginRequiredMixin, CreateView):
     model = Actividades
     fields = ('actividad', 'horario', 'dia', 'nombre_profesor', 'telefono_contacto')
+    template_name = 'club_once_estrellas/actividades_form.html'
     success_url = reverse_lazy('lista_actividades')
-    def get_success_url(self):
-        return reverse_lazy('crear_articulo', kwargs={'pk': self.object.pk})
+    success_message = "Actividad creada con éxito"
 
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
+    
 # Vista de detalle de actividades
 class ActividadesDetailView(DetailView):
     model = Actividades
@@ -214,6 +221,17 @@ class ArticulosListView(ListView):
     template_name = 'club_once_estrellas/lista_articulos.html'
     context_object_name = 'articulos'
 
+class ArticuloDetailView(DetailView):
+    model = Articulos
+    template_name = 'club_once_estrellas/detalle_articulo.html'
+    context_object_name = 'articulo'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
+    
+@method_decorator(login_required, name='dispatch')
 class ArticuloCreateView(CreateView):
     model = Articulos
     fields = ['titulo', 'subtitulo', 'descripcion', 'autor', 'fecha_publicacion', 'imagen']
@@ -228,22 +246,59 @@ class ArticuloCreateView(CreateView):
         messages.success(self.request, 'Artículo creado exitosamente.')
 
         return super().form_valid(form)
-    
+
+class ArticuloDeleteView(UserPassesTestMixin, DeleteView):
+    model = Articulos
+    template_name = 'club_once_estrellas/articulo_confirm_delete.html'
+    success_url = reverse_lazy('lista_articulos')
+
+    @method_decorator(login_required)  # Requiere inicio de sesión
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def test_func(self):
+        articulo = self.get_object()
+        return self.request.user.username == articulo.autor
+
 # Vista de actualización de actividades
-class ActividadesUpdateView(LoginRequiredMixin, UpdateView):
-    model = Actividades
-    fields = ('actividad', 'horario', 'dia', 'nombre_profesor', 'telefono_contacto')
-    template_name = 'actividades_form.html'
-    context_object_name = 'actividad'
-    success_url = reverse_lazy('lista_actividades')
+
+@login_required
+def ActividadesUpdateView(request, pk):
+    actividad = get_object_or_404(Actividades, pk=pk)
+
+    if request.user != actividad.usuario:
+        messages.error(request, "No tienes permiso para editar esta actividad.")
+        return redirect('lista_actividades')
+
+    if request.method == 'POST':
+        form = ActividadesForm(request.POST, instance=actividad)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Actividad editada con éxito.")
+            return redirect('lista_actividades')
+    else:
+        form = ActividadesForm(instance=actividad)
+
+    return render(request, 'club_once_estrellas/actividades_edit_form.html', {'form': form})
 
 # Vista de eliminación de actividades
-class ActividadesDeleteView(LoginRequiredMixin, DeleteView):
-    model = Actividades
-    template_name = 'actividades_confirm_delete.html'
-    context_object_name = 'actividad'
-    success_url = reverse_lazy('lista_actividades')
 
+@login_required
+def ActividadesDeleteView(request, pk):
+    actividad = get_object_or_404(Actividades, pk=pk)
+
+    # Comprobar si el usuario actual es el usuario de la actividad
+    if actividad.usuario == request.user:
+        if request.method == 'POST':
+            actividad.delete()
+            return redirect('lista_actividades')
+        else:
+            context = {'actividad': actividad}
+            return render(request, 'club_once_estrellas/actividades_confirm_delete.html', context)
+    else:
+        error_message = "No tienes permiso para eliminar esta actividad."
+        context = {'error_message': error_message}
+        return render(request, 'club_once_estrellas/actividades_confirm_delete.html', context)
 
 
 

@@ -2,13 +2,14 @@
 
 {% block contenido %}
 
+<h1>Editar Actividad</h1>
+
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Guardar" />
-</form>
 
-<br>
-<a href="{% url 'lista_actividades' %}">Volver a la lista de actividades</a>
+  {{ form.as_p }}
+  
+  <input type="submit" value="Guardar cambios" />
+</form>
 
 {% endblock contenido %}

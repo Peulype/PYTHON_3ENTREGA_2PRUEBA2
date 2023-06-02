@@ -1,0 +1,47 @@
+{% extends "club_once_estrellas/base.html" %}
+
+{% block contenido %}
+<section>
+  <div>
+    <h1>Detalle del artículo</h1>
+
+    <h2>{{ articulo.titulo }}</h2>
+    <p>Subtítulo: {{ articulo.subtitulo }}</p>
+
+    {% if articulo.imagen %}
+    <div class="imagen-container">
+      <img class="imagen-articulo" src="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
+    </div>
+    {% endif %}
+
+    <p>Descripción: {{ articulo.descripcion }}</p>
+    <p>Autor: {{ articulo.autor }}</p>
+    <p>Fecha de Publicación: {{ articulo.fecha_publicacion }}</p>
+
+    {% if user.is_authenticated and user.username == articulo.autor %}
+    <form method="post" action="{% url 'eliminar_articulo' articulo.pk %}">
+      {% csrf_token %}
+      <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este artículo?')">Eliminar</button>
+    </form>
+    {% endif %}
+
+    <br>
+
+    <a href="{% url 'lista_articulos' %}">Volver a la lista de artículos</a>
+  </div>
+</section>
+
+<style>
+  .imagen-container {
+    max-width: 500px;
+    max-height: 300px;
+    overflow: hidden;
+  }
+
+  .imagen-articulo {
+    width: 100%;
+    height: auto;
+  }
+</style>
+
+{% endblock contenido %}

@@ -6,23 +6,41 @@
     <h1>Artículos relacionados con el club</h1>
 
     {% for articulo in articulos %}
-    <h2>{{ articulo.titulo }}</h2>
-    <h3>{{ articulo.subtitulo }}</h3>
-    <p>Descripción: {{ articulo.descripcion }}</p>
-    <p>Autor: {{ articulo.autor }}</p>
-    <p>Fecha de Publicación: {{ articulo.fecha_publicacion }}</p>
+    <div class="articulo">
+      <h2>{{ articulo.titulo }}</h2>
+      <p>Fecha de Publicación: {{ articulo.fecha_publicacion }}</p>
 
-    {% if articulo.imagen %}
-    <img src="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
-    {% endif %}
+      {% if articulo.imagen %}
+      <div class="imagen-container">
+        <img class="imagen-articulo" src="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
+      </div>
+      {% endif %}
+      <a href="{% url 'detalle_articulo' articulo.pk %}">Ver más</a>
 
-    <hr>
-    <br>
-
+      <hr>
+      <br>
+    </div>
     {% endfor %}
 
     <a href="{% url 'lista_actividades' %}">Volver a la lista de actividades</a>
   </div>
 </section>
-{% endblock contenido %}
 
+<style>
+  .articulo {
+    margin-bottom: 20px;
+  }
+
+  .imagen-container {
+    max-width: 500px;
+    max-height: 300px;
+    overflow: hidden;
+  }
+
+  .imagen-articulo {
+    width: 100%;
+    height: auto;
+  }
+</style>
+
+{% endblock contenido %}
