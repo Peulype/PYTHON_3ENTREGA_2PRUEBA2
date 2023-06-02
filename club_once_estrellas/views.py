@@ -220,6 +220,7 @@ class ArticulosListView(ListView):
     model = Articulos
     template_name = 'club_once_estrellas/lista_articulos.html'
     context_object_name = 'articulos'
+    ordering = ['-fecha_publicacion']  # Ordenar por fecha de creación descendente
 
 class ArticuloDetailView(DetailView):
     model = Articulos

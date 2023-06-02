@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 # Create your models here.
 class Socios(models.Model):
@@ -31,7 +32,7 @@ class Articulos(models.Model):
     titulo = models.CharField(max_length=200)
     subtitulo = models.CharField(max_length=200)
     descripcion = models.TextField()
-    autor = models.CharField(max_length=100)
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='articulos', null=True, blank=True)
     fecha_publicacion = models.DateField()
     imagen = models.ImageField(upload_to='articulos/')
     comentarios = models.ManyToManyField('Comentario', blank=True)
