@@ -1,17 +1,24 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+from club_once_estrellas.models import Articulos
+from django.contrib import messages
 
 
-from club_once_estrellas.models import Salones
+from club_once_estrellas.models import Actividades, Salones
 from club_once_estrellas.forms import SalonesFormulario
-from club_once_estrellas.models import InformacionSocios, Actividad, Actividades
+from club_once_estrellas.models import InformacionSocios
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
 
 
 #no usado - cambiamos por vistas basadas en clases
@@ -172,50 +179,73 @@ def editar_salones(request, id):
         context={'formulario': formulario, 'salon': salon,},
     )
 
+def index(request):
+    actividades = Actividades.objects.all()
+    context = {'actividades': actividades}
+    return render(request, 'club_once_estrellas/lista_actividades.html', context)
 
-def lista_de_actividades1(request):
-    if request.method == 'POST':
-        nueva_actividad = Actividad()
-        nueva_actividad.foto = request.FILES['foto']
-        nueva_actividad.descripcion = request.POST['descripcion']
-        nueva_actividad.nombre_profesor = request.POST['nombre_profesor']
-        nueva_actividad.telefono_contacto = request.POST['telefono_contacto']
-        nueva_actividad.save()
-        
-        # Realizar cualquier otra acción después de guardar la actividad
-        
-        return HttpResponse('Actividad creada exitosamente')
-
-    return render(request, 'lista_actividades.html')
-
-# Vistas de Actividades
+# Vista de lista de actividades
 class ActividadesListView(ListView):
     model = Actividades
     template_name = 'club_once_estrellas/lista_actividades.html'
+    context_object_name = 'actividades'
 
-
+# Vista de creación de actividades
 class ActividadesCreateView(LoginRequiredMixin, CreateView):
     model = Actividades
     fields = ('actividad', 'horario', 'dia', 'nombre_profesor', 'telefono_contacto')
     success_url = reverse_lazy('lista_actividades')
+    def get_success_url(self):
+        return reverse_lazy('crear_articulo', kwargs={'pk': self.object.pk})
 
-
+# Vista de detalle de actividades
 class ActividadesDetailView(DetailView):
     model = Actividades
-    success_url = reverse_lazy('lista_actividades')
+    template_name = 'club_once_estrellas/actividades_detail.html'
+    context_object_name = 'actividad'
 
+# Vista de actividades formato articulo
+#def actividad_article(request, pk):
+ #   actividad = get_object_or_404(Actividades, pk=pk)
+  #  return render(request, 'club_once_estrellas/actividad_article.html', {'actividad': actividad})
 
+class ArticulosListView(ListView):
+    model = Articulos
+    template_name = 'club_once_estrellas/lista_articulos.html'
+    context_object_name = 'articulos'
+
+class ArticuloCreateView(CreateView):
+    model = Articulos
+    fields = ['titulo', 'subtitulo', 'descripcion', 'autor', 'fecha_publicacion', 'imagen']
+    template_name = 'club_once_estrellas/crear_articulo.html'
+    success_url = reverse_lazy('lista_articulos')
+
+    def form_valid(self, form):
+        # Guardar el artículo
+        self.object = form.save()
+
+        # Establecer el mensaje de éxito
+        messages.success(self.request, 'Artículo creado exitosamente.')
+
+        return super().form_valid(form)
+    
+# Vista de actualización de actividades
 class ActividadesUpdateView(LoginRequiredMixin, UpdateView):
     model = Actividades
     fields = ('actividad', 'horario', 'dia', 'nombre_profesor', 'telefono_contacto')
+    template_name = 'actividades_form.html'
+    context_object_name = 'actividad'
     success_url = reverse_lazy('lista_actividades')
 
-
+# Vista de eliminación de actividades
 class ActividadesDeleteView(LoginRequiredMixin, DeleteView):
     model = Actividades
+    template_name = 'actividades_confirm_delete.html'
+    context_object_name = 'actividad'
     success_url = reverse_lazy('lista_actividades')
 
-from django.shortcuts import render
+
+
 
 def about(request):
     contexto = {}

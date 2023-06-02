@@ -1,0 +1,28 @@
+{% extends "club_once_estrellas/base.html" %}
+
+{% block contenido %}
+<section>
+  <div>
+    <h1>Artículos relacionados con el club</h1>
+
+    {% for articulo in articulos %}
+    <h2>{{ articulo.titulo }}</h2>
+    <h3>{{ articulo.subtitulo }}</h3>
+    <p>Descripción: {{ articulo.descripcion }}</p>
+    <p>Autor: {{ articulo.autor }}</p>
+    <p>Fecha de Publicación: {{ articulo.fecha_publicacion }}</p>
+
+    {% if articulo.imagen %}
+    <img src="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
+    {% endif %}
+
+    <hr>
+    <br>
+
+    {% endfor %}
+
+    <a href="{% url 'lista_actividades' %}">Volver a la lista de actividades</a>
+  </div>
+</section>
+{% endblock contenido %}
+

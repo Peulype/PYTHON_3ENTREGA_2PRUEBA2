@@ -18,19 +18,36 @@ class Actividades(models.Model):
     dia = models.CharField(max_length=64)
     nombre_profesor = models.CharField(max_length=64)
     telefono_contacto = models.CharField(max_length=20)
-    creador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
+    descripcion = models.TextField(null=True, blank=True)
+    fecha_creacion = models.DateField(null=True, blank=True)
+    imagen = models.ImageField(upload_to='Actividades', null=True, blank=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Actividades', null=True, blank=True)
+    comentario = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.actividad}, {self.telefono_contacto}"
     
-class Actividad(models.Model):
-    foto = models.ImageField(upload_to='actividades/')
+class Articulos(models.Model):
+    titulo = models.CharField(max_length=200)
+    subtitulo = models.CharField(max_length=200)
     descripcion = models.TextField()
-    nombre_profesor = models.CharField(max_length=100)
-    telefono_contacto = models.CharField(max_length=20)
-    creador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    autor = models.CharField(max_length=100)
+    fecha_publicacion = models.DateField()
+    imagen = models.ImageField(upload_to='articulos/')
+    comentarios = models.ManyToManyField('Comentario', blank=True)
 
+    def __str__(self):
+        return self.titulo
+
+class Comentario(models.Model):
+    nombre = models.CharField(max_length=100)
+    contenido = models.TextField()
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.nombre
+
+    
 
 class Salones(models.Model):
     tipo = models.CharField(max_length=64)

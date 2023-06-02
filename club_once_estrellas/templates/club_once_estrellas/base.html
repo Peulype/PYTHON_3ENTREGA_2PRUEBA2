@@ -26,10 +26,12 @@
             <div class="container">
                 <a class="navbar-brand" href="https://www.google.com">Google</a>
                 <a class="navbar-brand" href="{% url 'inicio' %}">Inicio</a>
+                <a class="navbar-brand" href="{% url 'lista_articulos' %}">Artículos</a>
                 <a class="navbar-brand" href="{% url 'lista_actividades' %}">Actividades</a>
                 <a class="navbar-brand" href="{% url 'lista_salones' %}">Salones</a>
                 <a class="navbar-brand" href="{% url 'lista_de_socios' %}">Socios</a> 
                 <a class="navbar-brand" href="{% url 'about' %}">Sobre el Club</a>
+                
                 {% if user.is_authenticated %}
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
