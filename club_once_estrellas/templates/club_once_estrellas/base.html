@@ -32,11 +32,14 @@
                 <a class="navbar-brand" href="{% url 'about' %}">Sobre el Club</a>
                 
                 {% if user.is_authenticated %}
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div style="display: inline-flex;">
-                            <span>{{ user.username }}</span>
-                        </div>
+                <div class="dropdown" style="display: flex; align-items: center;">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; border: none;">
+                        {% if user.avatar %}
+                        <img src="{{ user.avatar.imagen.url }}" alt="Avatar" width="40" height="40" style="margin-right: 10px;">
+                        {% else %}
+                        <img src="/media/avatares/generica.jpg" alt="Avatar genérico" width="40" height="40" style="margin-right: 10px;">
+                        {% endif %}
+                        <span style="color: black;">{{ user.username }}</span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li>
@@ -55,7 +58,10 @@
                 <a class="btn btn-primary" href="{% url 'login' %}">Inicio sesión</a>
                 <a class="btn btn-success" href="{% url 'registro' %}">Registro</a>
                 {% endif %}
-
+                
+                
+                
+                
             </div>
         </nav>
 
@@ -80,10 +86,7 @@
                     <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item me-4">
-                                <a href="#!"><i class="bi-facebook fs-3"></i></a>
-                            </li>
-                            <li class="list-inline-item me-4">
-                                <a href="#!"><i class="bi-twitter fs-3"></i></a>
+                                <a href="https://www.facebook.com/clubatletico.onceestrellas.52"><i class="bi-facebook fs-3"></i></a>
                             </li>
                             <li class="list-inline-item">
                                 <a href="https://www.instagram.com/club_atletico_once_estrellas_/?igshid=NTc4MTIwNjQ2YQ%3D%3D"><i class="bi-instagram fs-3"></i></a>

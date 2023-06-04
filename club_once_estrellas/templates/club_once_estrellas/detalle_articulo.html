@@ -6,19 +6,20 @@
     <h1>Detalle del artículo</h1>
 
     <h2>{{ articulo.titulo }}</h2>
-    <p>Subtítulo: {{ articulo.subtitulo }}</p>
+    <p>{{ articulo.subtitulo }}</p>
 
     {% if articulo.imagen %}
     <div class="imagen-container">
       <img class="imagen-articulo" src="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
     </div>
     {% endif %}
+    <br>
 
-    <p>Descripción: {{ articulo.descripcion }}</p>
+    <p>{{ articulo.descripcion }}</p>
     <p>Autor: {{ articulo.autor }}</p>
     <p>Fecha de Publicación: {{ articulo.fecha_publicacion }}</p>
 
-    {% if user.is_authenticated and user == articulo.autor %}
+    {% if user.is_authenticated and user.is_superuser %}
     <form method="post" action="{% url 'eliminar_articulo' articulo.pk %}">
       {% csrf_token %}
       <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este artículo?')">Eliminar</button>

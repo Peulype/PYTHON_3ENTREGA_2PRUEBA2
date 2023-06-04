@@ -233,7 +233,7 @@ class ArticuloDetailView(DetailView):
         return context
     
 
-class ArticuloCreateView(CreateView):
+class ArticuloCreateView(LoginRequiredMixin, CreateView):
     model = Articulos
     fields = ['titulo', 'subtitulo', 'descripcion', 'autor', 'fecha_publicacion', 'imagen']
     template_name = 'club_once_estrellas/crear_articulo.html'
@@ -255,7 +255,7 @@ class ArticuloCreateView(CreateView):
 
             return self.form_invalid(form)
         
-        
+
 class ArticuloDeleteView(UserPassesTestMixin, DeleteView):
     model = Articulos
     template_name = 'club_once_estrellas/articulo_confirm_delete.html'
@@ -266,8 +266,7 @@ class ArticuloDeleteView(UserPassesTestMixin, DeleteView):
         return super().dispatch(request, *args, **kwargs)
 
     def test_func(self):
-        articulo = self.get_object()
-        return self.request.user.username == articulo.autor
+        return self.request.user.is_superuser
 
 # Vista de actualización de actividades
 

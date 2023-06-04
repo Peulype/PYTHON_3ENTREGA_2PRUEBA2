@@ -1,12 +1,19 @@
 {% extends "club_once_estrellas/base.html" %}
 
 {% block contenido %}
-<p>Tu nombre de usuario es <b>{{ object.username }}</b></p>
+  <div class="profile-info">
+    <div class="avatar">
+      <img src="{{ user.avatar.imagen.url }}" alt="Avatar">
+    </div>
+    <div class="user-info">
+      <p>Tu nombre de usuario es <b>{{ object.username }}</b></p>
+    </div>
+  </div>
 
-<h3>Editar datos:</h3>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Salvar"/>
-</form>
+  <h3>Editar datos:</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Salvar"/>
+  </form>
 {% endblock contenido %}

@@ -9,7 +9,8 @@ from django.contrib.auth.views import LogoutView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView
-
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 from actividades_usuarios.forms import UserRegisterForm, UserUpdateForm, AvatarFormulario
 from actividades_usuarios.models import Avatar
@@ -72,16 +73,24 @@ class MiPerfilUpdateView(LoginRequiredMixin, UpdateView):
 
 def agregar_avatar(request):
     if request.method == "POST":
-        formulario = AvatarFormulario(request.POST, request.FILES) # Aquí me llega toda la info del formulario html
+        formulario = AvatarFormulario(request.POST, request.FILES)
 
         if formulario.is_valid():
-            avatar = formulario.save()
+            avatar = formulario.save(commit=False)
             avatar.user = request.user
+
+            # Guarda la imagen en el sistema de archivos
+            if avatar.imagen:
+                fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+                filename = fs.save(avatar.imagen.name, avatar.imagen)
+                avatar.imagen = filename
+
             avatar.save()
             url_exitosa = reverse('inicio')
             return redirect(url_exitosa)
-    else:  # GET
+    else:
         formulario = AvatarFormulario()
+
     return render(
         request=request,
         template_name="actividades_usuarios/formulario_avatar.html",
