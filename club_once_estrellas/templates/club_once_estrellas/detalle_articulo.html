@@ -18,7 +18,7 @@
     <p>Autor: {{ articulo.autor }}</p>
     <p>Fecha de Publicación: {{ articulo.fecha_publicacion }}</p>
 
-    {% if user.is_authenticated and user.username == articulo.autor %}
+    {% if user.is_authenticated and user == articulo.autor %}
     <form method="post" action="{% url 'eliminar_articulo' articulo.pk %}">
       {% csrf_token %}
       <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este artículo?')">Eliminar</button>

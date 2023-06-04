@@ -232,7 +232,7 @@ class ArticuloDetailView(DetailView):
         context['user'] = self.request.user
         return context
     
-@method_decorator(login_required, name='dispatch')
+
 class ArticuloCreateView(CreateView):
     model = Articulos
     fields = ['titulo', 'subtitulo', 'descripcion', 'autor', 'fecha_publicacion', 'imagen']
@@ -240,14 +240,22 @@ class ArticuloCreateView(CreateView):
     success_url = reverse_lazy('lista_articulos')
 
     def form_valid(self, form):
-        # Guardar el artículo
-        self.object = form.save()
+        # Verificar si el formulario es válido
+        if form.is_valid():
+            # Guardar el artículo
+            self.object = form.save()
 
-        # Establecer el mensaje de éxito
-        messages.success(self.request, 'Artículo creado exitosamente.')
+            # Establecer el mensaje de éxito
+            messages.success(self.request, 'Artículo creado exitosamente.')
 
-        return super().form_valid(form)
+            return super().form_valid(form)
+        else:
+            # El formulario no es válido, puedes agregar un mensaje de error si lo deseas
+            messages.error(self.request, 'Hubo un error en el formulario.')
 
+            return self.form_invalid(form)
+        
+        
 class ArticuloDeleteView(UserPassesTestMixin, DeleteView):
     model = Articulos
     template_name = 'club_once_estrellas/articulo_confirm_delete.html'
